@@ -1,6 +1,11 @@
 module machine(
   input wire clk,
-  input wire reset
+  input wire reset,
+
+    input wire bc, //button for clockwise
+  input wire bac,//button for anticlockwise
+  output reg [7:0] led_x,
+  output reg [7:0] led_y
 );
 
   // ==========================
@@ -54,3 +59,17 @@ module machine(
   assign bus = (mem_io & mem_clk & (addr_bus == 8'h01)) ? 8'hFF : 8'hZZ;
 
 endmodule
+
+
+  //Input registers 
+  reg [1:0] ip;  // holds the state as follows {bc, bac}
+  always @(posedge bc or posedge bac or negedge bc or negedge bac or reset) begin
+    if(reset) ip<=2'b00;
+    else begin
+      ip[1] <= bc;  // Assign bc to ip[1]
+      ip[0] <= bac; // Assign bac to ip[0]
+    end
+  end
+
+  //Output registers
+  
