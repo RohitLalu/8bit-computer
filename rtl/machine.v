@@ -8,6 +8,20 @@ module machine(
   output reg [7:0] led_y
 );
 
+/*NOTE:
+Let us assume that every one second, our game refreshes and the
+snake moves 1 LED forward. So we need to read from input registers at that
+1 second, and refresh output registers every 1 second. 
+
+*/
+/*
+TODO :
+- Specify input and output registers properly.
+- The control logic should be able to load data from input registers to local registers
+and write data to output registers.
+- (Writing this in the CPU also is the same headache I believe.)
+*/
+
   // ==========================
   // CPU
   // ==========================
@@ -46,7 +60,7 @@ module machine(
   // ==========================
   // DEBUG I/O PERIPHERAL
   // ==========================
-
+  /*
   always @ (posedge mem_io & mem_clk) begin
     if (addr_bus == 8'h00)
       $display("Output: %d ($%h)", bus, bus);
@@ -59,7 +73,7 @@ module machine(
   assign bus = (mem_io & mem_clk & (addr_bus == 8'h01)) ? 8'hFF : 8'hZZ;
 
 endmodule
-
+*/
 
   //Input registers 
   reg [1:0] ip;  // holds the state as follows {bc, bac}

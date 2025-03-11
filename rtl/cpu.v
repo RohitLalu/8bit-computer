@@ -2,11 +2,11 @@ module cpu(
   input wire clk,
   input wire reset,
   output wire [7:0] addr_bus,
-  output wire c_ri,
-  output wire c_ro,
+  output wire c_ri, // Put to 1 when you want to read from inputs
+  output wire c_ro, // Put to 1 when you want to write to outputs
   output reg mem_clk,
   output wire mem_io,   // Select memory if low or I/O if high
-  inout wire [7:0] bus
+  inout wire [7:0] bus // The bus is connected to CPU, RAM and i/o peripherals
 );
 
   `include "rtl/parameters.v"
