@@ -2,10 +2,11 @@ module cpu(
   input wire clk,
   input wire reset,
   output wire [7:0] addr_bus,
-  output wire c_ri, // Put to 1 when you want to read from inputs
-  output wire c_ro, // Put to 1 when you want to write to outputs
+  output wire c_ri, //Reads from RAM
+  output wire c_ro, //Writes to RAM
   output reg mem_clk,
-  output wire mem_io,   // Select memory if low or I/O if high
+ // output wire mem_io,   // Select memory if low or I/O if high
+ output button_read,
   inout wire [7:0] bus // The bus is connected to CPU, RAM and i/o peripherals
 );
 
@@ -24,7 +25,7 @@ module cpu(
   reg [2:0] cnt = 'b100;
   reg halted = 0;
   always @ (posedge clk & ~halted) begin
-    {cycle_clk, mem_clk, internal_clk} <= cnt;
+    {cycle_clk, mem_clk, internal_clk} <= cnt; 
 
     case (cnt)
       'b100 : cnt = 'b010;
@@ -162,7 +163,9 @@ module cpu(
   assign operand2    = instruction[2:0];
   assign next_state  = state == `STATE_NEXT | reset;
 
-  assign mem_io = state == `STATE_OUT | state == `STATE_IN;
+// assign mem_io = state == `STATE_OUT | state == `STATE_IN;
+
+  assign button_read = (state=='STATE_IN); //Edit to the main code
 
   assign mov_memory   = operand1 == 3'b111 | operand2 == 3'b111;
   assign jump_allowed = operand2 == `JMP_JMP
@@ -189,7 +192,7 @@ module cpu(
                   state == `STATE_SET_ADDR |
                   state == `STATE_SET_REG |
                   (state == `STATE_MOV_STORE & operand1 != 3'b111);
-  assign c_rfo  = state == `STATE_OUT |
+  assign c_rfo  = //state == `STATE_OUT |  //Commented this out, as 'STATE_OUT won't be used any longer
                   state == `STATE_TMP_JUMP |
                   state == `STATE_REG_STORE |
                   (state == `STATE_MOV_STORE & operand2 != 3'b111);
