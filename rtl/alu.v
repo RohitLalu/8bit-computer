@@ -9,7 +9,7 @@ module alu(
   output reg flag_carry
 );
 
-  `include "rtl/parameters.v"
+  `include "parameters.v"
 
   parameter N = 8;
 

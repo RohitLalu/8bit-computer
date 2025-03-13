@@ -4,8 +4,8 @@ module machine(
 
     input wire bc, //button for clockwise
   input wire bac,//button for anticlockwise
-  output reg [7:0] led_col,
-  output reg [7:0] led_row
+  output wire [7:0] led_col,
+  output wire [7:0] led_row
 );
 
 /*NOTE:
@@ -29,7 +29,7 @@ and write data to output registers.
   wire c_ri;
   wire c_ro;
   wire mem_clk;
-  wire mem_io;  //WHat is mem_io
+//  wire mem_io;  //WHat is mem_io
 
 //I/O ports
   wire [7:0] row, counter_addr;
@@ -49,7 +49,7 @@ and write data to output registers.
     .mem_clk(mem_clk),
     .c_ri(c_ri),
     .c_ro(c_ro),
-    .mem_io(mem_io)
+    .button_read(button_read)
   );
 
 
@@ -63,7 +63,7 @@ and write data to output registers.
     .data(bus),
     .we(c_ri),
     .oe(c_ro),
-
+    .reset(reset),
     .counter_addr(counter_addr),
     .row(row),
     .button_read(button_read),
@@ -96,6 +96,3 @@ led_matrix led_mat(
 
 
 endmodule
-
-
-  

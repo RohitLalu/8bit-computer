@@ -7,12 +7,16 @@ module cpu_control(
   output reg [7:0] opcode
 );
 
-  `include "rtl/parameters.v"
+  `include "parameters.v"
 
-  initial
-    cycle = 0;
+//  initial
+//    cycle = 0;
 
-  always @ (posedge clk) begin
+  always @ (posedge clk or posedge reset_cycle) begin
+    if(reset_cycle) begin
+        cycle=0;
+    end
+    else begin
     casez (instruction)
       `PATTERN_LDI:  opcode = `OP_LDI;
       `PATTERN_MOV:  opcode = `OP_MOV;
@@ -58,10 +62,11 @@ module cpu_control(
     endcase
 
     cycle = (cycle > 6) ? 0 : cycle + 1;
+    end
   end
 
-  always @ (posedge reset_cycle) begin
-    cycle = 0;
-  end
+//  always @ () begin
+//    cycle = 0;
+//  end
 
 endmodule

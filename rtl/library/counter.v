@@ -12,18 +12,14 @@ module counter(
   initial
     out = 0;
 
-  always @(posedge clk) begin
-    if (sel_in)
+  always @(posedge clk or posedge reset) begin
+    if (reset)
+      out <= 0;
+    else if (sel_in)
       out <= in;
+    else if (down)
+      out <= out - 1;
     else
-      if (down)
-        out <= out - 1;
-      else
-        out <= out + 1;
+      out <= out + 1;
   end
-
-  always @(posedge reset) begin
-    out <= 0;
-  end
-
 endmodule

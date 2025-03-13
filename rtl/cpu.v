@@ -10,7 +10,7 @@ module cpu(
   inout wire [7:0] bus // The bus is connected to CPU, RAM and i/o peripherals
 );
 
-  `include "rtl/parameters.v"
+  `include "parameters.v"
 
   wire flag_zero;
   wire flag_carry;
@@ -165,7 +165,7 @@ module cpu(
 
 // assign mem_io = state == `STATE_OUT | state == `STATE_IN;
 
-  assign button_read = (state=='STATE_IN); //Edit to the main code
+  assign button_read = (state==`STATE_IN); //Edit to the main code
 
   assign mov_memory   = operand1 == 3'b111 | operand2 == 3'b111;
   assign jump_allowed = operand2 == `JMP_JMP
